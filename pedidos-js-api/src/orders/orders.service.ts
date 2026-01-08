@@ -3,11 +3,13 @@ import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
 import { PrismaService } from "../prisma/prisma.service"
 import { OrderView } from "./view/order.view"
+import { OrdersGateway } from './orders.gateway'
 
 @Injectable()
 export class OrdersService {
   constructor(
-    private readonly prismaService: PrismaService
+    private readonly prismaService: PrismaService,
+    private readonly ordersGateway: OrdersGateway
   ) { }
 
   async create(createOrderDto: CreateOrderDto): Promise<OrderView> {
@@ -17,6 +19,7 @@ export class OrdersService {
         status: 'PENDING'
       }
     })
+    this.ordersGateway.emitOrderCreated(order)
     return order
   }
 
@@ -47,6 +50,7 @@ export class OrdersService {
       throw new NotFoundException(`Order with ID ${id} not found`)
     }
 
+    this.ordersGateway.emitOrderUpdated(order)
     return order
   }
 
@@ -59,6 +63,7 @@ export class OrdersService {
       throw new NotFoundException(`Order with ID ${id} not found`)
     }
 
+    this.ordersGateway.emitOrderDeleted(order)
     return order
   }
 }
