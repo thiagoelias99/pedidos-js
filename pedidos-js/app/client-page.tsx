@@ -1,14 +1,14 @@
 "use client"
 
 import { IOrder } from "./actions/orders/get-orders"
-import { useOrdersSocket } from "./hooks/useOrdersSocket"
+import { useOrders } from "./hooks/useOrders"
 
 interface ClientPageProps {
   orders: IOrder[]
 }
 
 export default function ClientPage({ orders }: ClientPageProps) {
-  const { orders: socketOrders, isConnected } = useOrdersSocket({ initialOrders: orders, authorization: "admin" })
+  const { isConnected, orders: socketOrders } = useOrders({ initialOrders: orders })
 
   return (
     <div>
