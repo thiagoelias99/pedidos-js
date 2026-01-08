@@ -17,10 +17,10 @@ export class OrdersGateway {
      * frontend envia role no handshake
      * depois você troca isso por JWT sem mudar a arquitetura
      */
-    console.log('Novo cliente conectado:', client.id)
-    console.log('Handshake auth:', client)
+    // console.log('Novo cliente conectado:', client.id)
+    // console.log('Handshake auth:', client)
 
-    const authorization = client.handshake.headers.authorization
+    const authorization = client.handshake.auth.token
     client.data.authorization = authorization
 
     // aqui pode fazer várias lógicas de autorização e incluir o cliente em salas específicas
